@@ -1,0 +1,69 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://assets/enemy/tile_0016.png" type="Texture" id=1]
+[ext_resource path="res://assets/enemy/tile_0015.png" type="Texture" id=2]
+[ext_resource path="res://scenes/Enemy.gd" type="Script" id=3]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 7, 6 )
+
+[sub_resource type="SpriteFrames" id=2]
+animations = [ {
+"frames": [ ExtResource( 2 ), ExtResource( 1 ) ],
+"loop": true,
+"name": "run",
+"speed": 10.0
+} ]
+
+[sub_resource type="CircleShape2D" id=3]
+radius = 5.0
+
+[sub_resource type="CircleShape2D" id=4]
+
+[node name="Enemy" type="KinematicBody2D"]
+collision_layer = 0
+script = ExtResource( 3 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0, -8 )
+shape = SubResource( 1 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+frames = SubResource( 2 )
+animation = "run"
+frame = 1
+playing = true
+offset = Vector2( 0, -12 )
+flip_h = true
+
+[node name="RayCastBottom" type="RayCast2D" parent="AnimatedSprite"]
+position = Vector2( 9.94729, -2.43782 )
+scale = Vector2( 0.258981, 0.0624384 )
+enabled = true
+
+[node name="RayCastBorder" type="RayCast2D" parent="AnimatedSprite"]
+position = Vector2( 7.96394, -7.64605 )
+rotation = -1.5708
+scale = Vector2( 0.315789, 0.0493646 )
+enabled = true
+
+[node name="FlipTimer" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
+
+[node name="HazardArea" type="Area2D" parent="."]
+position = Vector2( 0, 1.88864 )
+collision_layer = 65536
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HazardArea"]
+position = Vector2( 0, -8 )
+shape = SubResource( 3 )
+
+[node name="HitboxArea" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxArea"]
+position = Vector2( 0, -8 )
+shape = SubResource( 4 )
